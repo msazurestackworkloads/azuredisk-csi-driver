@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"strings"
+	"time"
 
 	"sigs.k8s.io/azuredisk-csi-driver/test/e2e/driver"
 	"sigs.k8s.io/azuredisk-csi-driver/test/utils/azure"
@@ -92,6 +93,8 @@ func (t *DynamicallyProvisionedVolumeSnapshotTest) Run(client clientset.Interfac
 		}
 	}()
 
+	ginkgo.By("sleep 5s and then take snapshots")
+	time.Sleep(5 * time.Second)
 	ginkgo.By("creating volume snapshot class with external rg " + externalRG)
 	tvsc, cleanup := CreateVolumeSnapshotClass(restclient, namespace, t.CSIDriver)
 	mp := map[string]string{
